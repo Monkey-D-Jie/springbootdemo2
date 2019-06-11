@@ -1,0 +1,8 @@
+logging:
+  pattern:
+    console: "%d - %msg%n"
+  #path: e:/
+  file: e:/testLog.log
+  level:
+    #这里可以是包名也可以是类名
+    com.lonely: debug
