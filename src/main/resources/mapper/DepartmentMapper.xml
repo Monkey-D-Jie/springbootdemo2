@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jf.mydemo.dao.DepartmentDao">
+    <!--批量更新 现场监考类型的指令总数和未读数量-->
+    <!--<update id="updateInvigilatorOrderInfo" >-->
+        <!--<foreach collection="messageList" index="" item="message" separator=";">-->
+            <!--UPDATE-->
+              <!--d_statistics_examsession-->
+            <!--set-->
+              <!--iden_message_num = #{message.totalMessageNum},-->
+              <!--iden_message_unread_num  = #{message.unReadMessageNum}-->
+            <!--where-->
+              <!--uid = #{message.uid}-->
+        <!--</foreach>-->
+    <!--</update>-->
+    <!--&lt;!&ndash;更新某一个考点下考生的身份认证状态&ndash;&gt;-->
+    <!--&lt;!&ndash;更新不同分库下的考生的违纪和缺考信息&ndash;&gt;-->
+    <!--<insert id="insertOrUpdateExamineeFinalVodinfo">-->
+        <!--<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">-->
+            <!--SELECT LAST_INSERT_ID()-->
+        <!--</selectKey>-->
+        <!--INSERT INTO  jf_vis_db_${ExamPlan}.v_examinee_final_vodinfo-->
+        <!--(-->
+        <!--uid,-->
+        <!--ex_id,-->
+        <!--es_num,-->
+        <!--exam_no,-->
+        <!--org_code,-->
+        <!--<if test="type == 0">-->
+        <!--xcsb_wg,-->
+        <!--xcsb_wg_time,-->
+        <!--logic_exr_no,-->
+        <!--remark,-->
+        <!--</if>-->
+        <!--<if test="type == 1">-->
+        <!--xcsb_qk,-->
+        <!--xcsb_qk_time,-->
+        <!--logic_exr_no,-->
+        <!--</if>-->
+        <!--update_time-->
+        <!--)-->
+        <!--VALUES-->
+        <!--<foreach collection="examineesList" item="item" index="index" separator=",">-->
+            <!--<if test="type == 0 ">-->
+                <!--(-->
+                <!--#{item.Uid},#{item.ExamId},#{item.ExamSessionNum},-->
+                <!--#{item.ExamineeNo},#{item.OrgCode},-->
+                <!--#{item.FoulCodeDetailId},#{item.timestamp},#{item.LogicExamRoomNum},#{item.Remark},-->
+                <!--#{item.updateTime}-->
+                <!--)-->
+            <!--</if>-->
+            <!--<if test="type == 1 ">-->
+                <!--(-->
+                <!--#{item.Uid},#{item.ExamPlan},#{item.ExamSession},-->
+                <!--#{item.KSH},#{item.OrgCode},-->
+                <!--#{item.QKZT},#{item.SBSJ},#{item.LogicExamRoomNum},-->
+                <!--#{item.updateTime}-->
+                <!--)-->
+            <!--</if>-->
+        <!--</foreach>-->
+        <!--ON DUPLICATE KEY-->
+        <!--UPDATE-->
+        <!--ex_id = VALUES (ex_id),-->
+        <!--es_num = VALUES (es_num),-->
+        <!--exam_no = VALUES (exam_no),-->
+        <!--org_code = VALUES (org_code),-->
+        <!--<if test="type == 0">-->
+            <!--xcsb_wg = VALUES (xcsb_wg),-->
+            <!--xcsb_wg_time = VALUES (xcsb_wg_time),-->
+            <!--logic_exr_no = VALUES (logic_exr_no),-->
+            <!--remark = VALUES (remark),-->
+        <!--</if>-->
+        <!--<if test="type == 1">-->
+            <!--xcsb_qk = VALUES (xcsb_qk),-->
+            <!--xcsb_qk_time = VALUES (xcsb_qk_time),-->
+            <!--logic_exr_no = VALUES (logic_exr_no),-->
+        <!--</if>-->
+        <!--update_time = VALUES (update_time)-->
+    <!--</insert>-->
+    <!--
+    往指定的考务门户数据库中插入数据
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    -->
+    <insert id="insertDepartment">
+        INSERT INTO
+        departments (dept_no,dept_name)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.deptNo},#{item.deptName}
+            )
+        </foreach>
+    </insert>
+    <!--********************************************-->
+
+</mapper>
